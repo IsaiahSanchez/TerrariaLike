@@ -47,7 +47,7 @@ public class PlayerInput : MonoBehaviour
 
     private void Jump(InputAction.CallbackContext obj)
     {
-        //mymovement.jump
+        myMovement.tryJump();
     }
 
     // Update is called once per frame
