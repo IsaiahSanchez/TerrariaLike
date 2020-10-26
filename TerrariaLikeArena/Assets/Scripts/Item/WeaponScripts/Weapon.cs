@@ -6,62 +6,37 @@ public class Weapon : Item
 {
     [SerializeField] private GameObject weaponPrefab;
 
-    [SerializeField] protected float attackSpeed = 1f;
     [SerializeField] protected float damage = 1f;
-    
-    protected bool isAttacking = false;
-    protected float currentTime = 0f;
 
-    protected GameObject currentlySpawnedWeapon;
 
-    private void OnEnable()
+    public override GameObject UseItem(GameObject User)
     {
-        stopAttacking();
+        return startAttacking(User.transform);
     }
 
-    public override void LeftUse()
+    public override GameObject AlternateUseItem(GameObject User)
     {
-        if (isAttacking == false)
+        //right click use or thing
+        return null;
+    }
+
+    public override bool UsingUpdate(float totalTimeUsing)
+    {
+        if (totalTimeUsing > useSpeed)
         {
-            startAttacking();
+            return false;
         }
-    }
-
-    public override void RightUse()
-    {
-
-    }
-
-    public override void ItemUpdate(float timeSinceLastFrame)
-    {
-        if (isAttacking)
-        {
-            currentTime += timeSinceLastFrame;
-            if (currentTime > attackSpeed)
-            {
-
-                stopAttacking();
-            }
-        }
+        return true;
     }
 
 
-    public virtual void startAttacking()
+    public virtual GameObject startAttacking(Transform playerTransform)
     {
         //spawn weapon at location
-        currentlySpawnedWeapon = Instantiate(weaponPrefab, PlayerTransform);
+        GameObject currentlySpawnedWeapon = Instantiate(weaponPrefab, playerTransform);
         WeaponHitbox hitbox = currentlySpawnedWeapon.AddComponent<WeaponHitbox>();
         hitbox.init(this);
-        isAttacking = true;
+        return currentlySpawnedWeapon;
     }
 
-    public virtual void stopAttacking()
-    {
-        if (currentlySpawnedWeapon != null)
-        {
-            Destroy(currentlySpawnedWeapon);
-        }
-        isAttacking = false;
-        currentTime = 0;
-    }
 }

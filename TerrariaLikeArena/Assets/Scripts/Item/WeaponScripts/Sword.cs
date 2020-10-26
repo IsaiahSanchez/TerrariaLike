@@ -6,29 +6,26 @@ using UnityEngine;
 public class Sword : Weapon
 {
 
-    public override void ItemUpdate(float timeSinceLastFrame)
+    public override bool UsingUpdate(float totalTimeUsing)
     {
-        if (isAttacking == true)
-        {
-            currentTime += timeSinceLastFrame;
-            if (!(currentTime > attackSpeed))
+            if (!(totalTimeUsing > useSpeed))
             {
 
-                float percentage = currentTime / attackSpeed;
+                float percentage = totalTimeUsing / useSpeed;
                 float angle = Mathf.LerpAngle(-45f, 110f, percentage);
                 currentlySpawnedWeapon.transform.localEulerAngles = new Vector3(0, 0, angle);
-                Debug.Log(angle);
+                return false;
             }
             else
             {
                 stopAttacking();
+                return true;
             }
-        }
     }
 
-    public override void startAttacking()
+    public override void startAttacking(Transform playerTransform)
     {
-        base.startAttacking();
+        base.startAttacking(playerTransform);
         currentlySpawnedWeapon.transform.position = new Vector3(currentlySpawnedWeapon.transform.position.x, currentlySpawnedWeapon.transform.position.y - .3f, currentlySpawnedWeapon.transform.position.z);
     }
 

@@ -5,32 +5,43 @@ using UnityEngine;
 [CreateAssetMenu(menuName ="Item")]
 public class Item : ScriptableObject
 {
-    [SerializeField] protected Sprite graphic;
-    protected int ItemId = -1;
-    protected Transform PlayerTransform;
+    [SerializeField] protected float useSpeed;
+    [SerializeField] protected Sprite itemGraphic;
+    [SerializeField] protected int itemId;
 
-    public void startScript(Transform myPlayerTransform)
+    public virtual GameObject UseItem(GameObject User)
     {
-        PlayerTransform = myPlayerTransform;
+        return null;
     }
 
-    public virtual void LeftUse()
+    public virtual GameObject AlternateUseItem(GameObject User)
+    {
+        return null;
+    }
+
+    public virtual bool UsingUpdate(float totalTimeUsing)
+    {
+        return true;
+    }
+
+    public virtual bool UsingAlternateUpdate(float totalTimeUsingAlternate)
+    {
+        return true; 
+    }
+
+    public virtual void UpdateTick()
     {
 
     }
 
-    public virtual void RightUse()
+    public virtual void StopUsing()
     {
 
     }
 
-    float time =5f;
-    public virtual void ItemUpdate(float timeSinceLastFrame)
+    public virtual void StopUsingAlternate()
     {
-        time -= timeSinceLastFrame;
-        if (time < 0)
-        {
 
-        }
     }
+
 }
