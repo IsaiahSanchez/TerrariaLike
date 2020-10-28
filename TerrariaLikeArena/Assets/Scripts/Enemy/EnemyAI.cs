@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyShell : MonoBehaviour
+public class EnemyAI : ScriptableObject
 {
     // Start is called before the first frame update
-    void Start()
+    void init()
     {
         
     }
 
     // Update is called once per frame
-    void Update()
+    void AILoop(Enemy thisEnemy)
     {
         
     }

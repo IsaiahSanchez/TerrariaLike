@@ -9,34 +9,36 @@ public class Weapon : Item
     [SerializeField] protected float damage = 1f;
 
 
-    public override GameObject UseItem(GameObject User)
+    public override void UseItem(PlayerHands hands)
     {
-        return startAttacking(User.transform);
+        startAttacking(hands.gameObject.transform, hands);
     }
 
-    public override GameObject AlternateUseItem(GameObject User)
+    public override void AlternateUseItem(PlayerHands playerHands)
     {
         //right click use or thing
-        return null;
+
     }
 
-    public override bool UsingUpdate(float totalTimeUsing)
+    public override bool UsingUpdate(PlayerHands hands)
     {
-        if (totalTimeUsing > useSpeed)
-        {
-            return false;
-        }
         return true;
+        //if (totalTimeUsing > useSpeed)
+        //{
+        //    return false;
+        //}
+        //return true;
     }
 
 
-    public virtual GameObject startAttacking(Transform playerTransform)
+    public virtual void startAttacking(Transform playerTransform , PlayerHands hands)
     {
         //spawn weapon at location
         GameObject currentlySpawnedWeapon = Instantiate(weaponPrefab, playerTransform);
         WeaponHitbox hitbox = currentlySpawnedWeapon.AddComponent<WeaponHitbox>();
         hitbox.init(this);
-        return currentlySpawnedWeapon;
+
+        hands.spawnedItem = currentlySpawnedWeapon;
     }
 
 }

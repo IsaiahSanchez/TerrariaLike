@@ -9,37 +9,37 @@ public class Item : ScriptableObject
     [SerializeField] protected Sprite itemGraphic;
     [SerializeField] protected int itemId;
 
-    public virtual GameObject UseItem(GameObject User)
+    public virtual void UseItem(PlayerHands hands)
     {
-        return null;
+        
     }
 
-    public virtual GameObject AlternateUseItem(GameObject User)
+    public virtual void AlternateUseItem(PlayerHands hands)
     {
-        return null;
+        
     }
 
-    public virtual bool UsingUpdate(float totalTimeUsing)
+    public virtual bool UsingUpdate(PlayerHands hands)
     {
         return true;
     }
 
-    public virtual bool UsingAlternateUpdate(float totalTimeUsingAlternate)
+    public virtual bool UsingAlternateUpdate(PlayerHands hands)
     {
-        return true; 
+        return true;
     }
 
-    public virtual void UpdateTick()
-    {
-
-    }
-
-    public virtual void StopUsing()
+    public virtual void UpdateTick(PlayerHands hands)
     {
 
     }
 
-    public virtual void StopUsingAlternate()
+    public virtual void StopUsing(PlayerHands hands)
+    {
+
+    }
+
+    public virtual void StopUsingAlternate(PlayerHands hands)
     {
 
     }

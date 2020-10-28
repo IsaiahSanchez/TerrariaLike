@@ -8,11 +8,11 @@ public class PlayerHands : MonoBehaviour
 
     private bool isUsing = false;
     private bool isAlternateUsing = false;
-    private float timePassedUsing = 0f;
-    private float timePassedAlternateUsing = 0f;
+    public float timePassedUsing = 0f;
+    public float timePassedAlternateUsing = 0f;
 
     private PlayerDirectionHandler directionHandler;
-    private GameObject spawnedItem;
+    public GameObject spawnedItem;
 
     private void Start()
     {
@@ -27,9 +27,8 @@ public class PlayerHands : MonoBehaviour
             if (isUsing == false && isAlternateUsing == false)
             {
                 timePassedUsing = 0;
-                spawnedItem = equippedItem.UseItem(this.gameObject);
+                equippedItem.UseItem(this);
                 isUsing = true;
-                directionHandler.canTurn = false;
             }
         }
     }
@@ -41,9 +40,8 @@ public class PlayerHands : MonoBehaviour
             if (isAlternateUsing == false && isUsing == false)
             {
                 timePassedAlternateUsing = 0;
-                spawnedItem = equippedItem.AlternateUseItem(this.gameObject);
+                equippedItem.AlternateUseItem(this);
                 isAlternateUsing = true;
-                directionHandler.canTurn = false;
             }
         }
     }
@@ -70,6 +68,10 @@ public class PlayerHands : MonoBehaviour
                     directionHandler.canTurn = true;
                 }
             }
+            else
+            {
+                directionHandler.canTurn = false;
+            }
         }
     }
 
@@ -80,14 +82,13 @@ public class PlayerHands : MonoBehaviour
     {
         if (isUsing)
         {
-            bool isFinished = equippedItem.UsingUpdate(timePassedUsing);
+            bool isFinished = equippedItem.UsingUpdate(this);
             timePassedUsing += timePassed;
 
             if (isFinished)
             {
                 isUsing = false;
-                directionHandler.canTurn = false;
-                stopUsing();
+                equippedItem.StopUsing(this);
             }
         }
     }
@@ -96,24 +97,24 @@ public class PlayerHands : MonoBehaviour
     {
         if (isAlternateUsing)
         {
-            bool isFinished = equippedItem.UsingAlternateUpdate(timePassedAlternateUsing);
+            bool isFinished = equippedItem.UsingAlternateUpdate(this);
             timePassedAlternateUsing += timePassed;
             if (isFinished)
             {
                 isAlternateUsing = false;
-                directionHandler.canTurn = true;
-                stopUsing();
+                equippedItem.StopUsingAlternate(this);
             }
         }
     }
 
     private void handleUpdateTick()
     {
-        equippedItem.UpdateTick();
+        equippedItem.UpdateTick(this);
     }
 
-    private void stopUsing()
+    public void stopUsing()
     {
+        Destroy(spawnedItem);
         spawnedItem = null;
     }
 

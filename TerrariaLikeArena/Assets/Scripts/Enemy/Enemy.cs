@@ -2,31 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : ScriptableObject
+public class Enemy : MonoBehaviour
 {
+    [SerializeField] EnemyAI Intelligence;
 
-    public Transform currentTarget = null;
-    public bool shouldMove = false;
+    public Rigidbody2D enemyBody;
+    
 
 
-    public virtual void Activate()
+    void Start()
     {
+        enemyBody = GetComponent<Rigidbody2D>();
+        //initialize intelligence
+    }
+
+    void Update()
+    {
+        //run main loop
         
-    }
-
-    public virtual void UpdateAI()
-    {
-
-    }
-
-    public virtual void setTarget()
-    {
-
-    }
-
-    private void OnDisable()
-    {
-        currentTarget = null;
-        shouldMove = false;
     }
 }
