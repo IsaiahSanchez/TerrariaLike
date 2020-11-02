@@ -6,7 +6,7 @@ public class Weapon : Item
 {
     [SerializeField] private GameObject weaponPrefab;
 
-    [SerializeField] protected float damage = 1f;
+    [SerializeField] public float damage = 1f;
 
 
     public override void UseItem(PlayerHands hands)
@@ -37,6 +37,7 @@ public class Weapon : Item
         GameObject currentlySpawnedWeapon = Instantiate(weaponPrefab, playerTransform);
         WeaponHitbox hitbox = currentlySpawnedWeapon.AddComponent<WeaponHitbox>();
         hitbox.init(this);
+        currentlySpawnedWeapon.layer = 8;
 
         hands.spawnedItem = currentlySpawnedWeapon;
     }

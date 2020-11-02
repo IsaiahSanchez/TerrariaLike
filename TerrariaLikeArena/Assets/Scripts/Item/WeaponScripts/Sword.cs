@@ -16,7 +16,7 @@ public class Sword : Weapon
 
                 float percentage = totalTimeUsing / useSpeed;
                 float angle = Mathf.LerpAngle(-45f, 110f, percentage);
-                Debug.Log(angle);
+                
                 hands.spawnedItem.transform.localEulerAngles = new Vector3(0, 0, angle);
                 return false;
             }
