@@ -7,6 +7,13 @@ public class Health : MonoBehaviour
     [SerializeField] private float MaxHealth;
     private float currentHealth;
 
+    public bool isDead = false;
+
+    private void Start()
+    {
+        currentHealth = MaxHealth;
+    }
+
     public void setHealth(float amount)
     {
         currentHealth = Mathf.Clamp(amount, 0, MaxHealth);
@@ -57,5 +64,6 @@ public class Health : MonoBehaviour
     private void Die()
     {
         //die stuff
+        isDead = true;
     }
 }

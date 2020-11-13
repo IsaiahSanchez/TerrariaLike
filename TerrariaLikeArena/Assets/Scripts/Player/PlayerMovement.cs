@@ -7,10 +7,15 @@ public class PlayerMovement : MonoBehaviour
 {
     private Rigidbody2D myBody;
     [HideInInspector]public Vector2 movementAimDirection = new Vector2();
+    private float currentSpeed = 0f;
+    [SerializeField]private float maxMovementSpeed = 10f;
+    [SerializeField] private float accelerationSpeed = .1f;
+    [SerializeField] private float frictionAmount = .1f;
+    [SerializeField] private Animator anim;
+
     private bool canJump = false;
     private float jumpCheckDelay = .1f;
     private bool isBeingKnockedBack = false;
-    [SerializeField] private float movementSpeed = 1f;
     [SerializeField] private float jumpForce = 1f;
     // Start is called before the first frame update
     void Start()
@@ -37,6 +42,24 @@ public class PlayerMovement : MonoBehaviour
                 canJump = false;
             }
 
+
+            if (currentSpeed <= 0.25f && currentSpeed >= -.25f)
+            {
+                anim.Play("Idle");
+            }
+            else
+            {
+                anim.Play("Walk");
+                float percentage = Mathf.Abs(currentSpeed) / maxMovementSpeed;
+                anim.speed = (2f*percentage)+.6f;
+            }
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        if (isBeingKnockedBack == false)
+        {
             handleMovement();
         }
     }
@@ -63,8 +86,28 @@ public class PlayerMovement : MonoBehaviour
 
     private void handleMovement()
     {
+        float amountToChange = 0;
+        amountToChange += (movementAimDirection.x * accelerationSpeed);
+        if (currentSpeed > 0)
+        {
+            if (movementAimDirection.x <= 0)
+            {
+                amountToChange -= frictionAmount;
+            }
+        }
+        else if (currentSpeed < 0)
+        {
+            if (movementAimDirection.x >= 0)
+            {
+                amountToChange += frictionAmount;
+            }
+        }
 
-        myBody.velocity = new Vector2(movementAimDirection.x * movementSpeed, myBody.velocity.y);
+
+        currentSpeed += amountToChange;
+        currentSpeed = Mathf.Clamp(currentSpeed, -maxMovementSpeed, maxMovementSpeed);
+
+        myBody.velocity = new Vector2(currentSpeed, myBody.velocity.y);
     }
 
     public void KnockBack(float knockBackAmount, bool isKnockingRight)
@@ -78,7 +121,7 @@ public class PlayerMovement : MonoBehaviour
         {
             direction = -1;
         }
-
+        currentSpeed = 0;
         myBody.AddForce(new Vector2(knockBackAmount * direction, knockBackAmount * .4f));
         isBeingKnockedBack = true;
         StartCoroutine(knockBackTimer());

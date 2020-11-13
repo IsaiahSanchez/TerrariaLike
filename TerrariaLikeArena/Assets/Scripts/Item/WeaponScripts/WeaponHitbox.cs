@@ -15,6 +15,14 @@ public class WeaponHitbox : MonoBehaviour
     {
         //get weapon info when doing damage to others
         collision.GetComponentInParent<Health>().Damage(myWeapon.damage);
+
+
+        bool knockRight = true;
+        if (transform.position.x > collision.transform.position.x)
+        {
+            knockRight = false;
+        }
+        collision.GetComponentInParent<Enemy>().KnockBack(myWeapon.knockBackAmount, knockRight);
         //apply status effects if applicable.
     }
 }

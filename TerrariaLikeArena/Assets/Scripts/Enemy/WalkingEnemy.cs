@@ -25,7 +25,7 @@ public class WalkingEnemy : EnemyAI
         }
         else
         {
-            if (thisEnemy.targetLocation.position.x > thisEnemy.transform.position.x)
+            if (thisEnemy.targetLocation.x > thisEnemy.transform.position.x)
             {
                 thisEnemy.DirectionToMove = 1f;
             }

@@ -7,6 +7,7 @@ public class Weapon : Item
     [SerializeField] private GameObject weaponPrefab;
 
     [SerializeField] public float damage = 1f;
+    [SerializeField] public float knockBackAmount = 30f;
 
 
     public override void UseItem(PlayerHands hands)
@@ -35,6 +36,9 @@ public class Weapon : Item
     {
         //spawn weapon at location
         GameObject currentlySpawnedWeapon = Instantiate(weaponPrefab, playerTransform);
+        currentlySpawnedWeapon.AddComponent<SpriteRenderer>();
+        currentlySpawnedWeapon.GetComponent<SpriteRenderer>().sprite = itemGraphic;
+        currentlySpawnedWeapon.AddComponent<PolygonCollider2D>();
         WeaponHitbox hitbox = currentlySpawnedWeapon.AddComponent<WeaponHitbox>();
         hitbox.init(this);
         currentlySpawnedWeapon.layer = 8;

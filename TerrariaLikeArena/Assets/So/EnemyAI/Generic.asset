@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Generic
   m_EditorClassIdentifier: 
   touchDamageAmount: 2
-  KnockBackAmount: 600
+  KnockBackAmount: 375
   AiRefreshSpeed: 1
   movementSpeed: 2
